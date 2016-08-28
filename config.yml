@@ -1,0 +1,10 @@
+---
+input_files:
+  - name: au.csv
+    exchange_rates: 1
+  - name: png.csv
+  #  exchange_rates: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+    exchange_rates: 0.42
+output: test.csv
+budget: budget.csv
+...

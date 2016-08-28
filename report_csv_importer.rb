@@ -11,9 +11,22 @@ class ReportCSVImporter
     @exchange_rate = 1
     @first_month = 0;
     @header_parsed = false;
+    set_fixed_rate(0)
   end
 
   private
+
+  def set_fixed_rate(rate)
+    @exchange_rates = Array.new
+    for i in 0..11
+      @exchange_rates << rate
+    end
+  end
+
+  def get_exchange_rate(month)
+    raise "Month outof bounds" unless month >= 0 && month <= 11
+    return @exchange_rates[month]
+  end
 
   # We want to map the columns in the report to a normal
   # month index range (0-11)
@@ -32,7 +45,8 @@ class ReportCSVImporter
     account.description = row[1].strip
     for i in 2..row.size-2
       amount = row[i].delete('$,').to_f unless row[i].nil?
-      account.set_month_income(0, normalise_month(i-2), Money.new(amount, @exchange_rate))
+      month = normalise_month(i-2)
+      account.set_month_income(0, month , Money.new(amount, get_exchange_rate(month)))
     end
     return account
   end
@@ -69,6 +83,14 @@ class ReportCSVImporter
   end
 
   public
+  def set_exchange_rates(rates)
+    if rates.class == Array
+      @exchange_rates = rates
+    else
+      set_fixed_rate(rates)
+    end
+  end
+
   def import(file_name)
     @header_parsed = false
     @first_month = 0
