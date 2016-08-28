@@ -24,11 +24,12 @@ class ReportCSVImporter
 
   # Convert the row data into an account record.
   def convert_row_to_account(row)
-    account = Account.new();
+    account = Account.new
     account.id = row[0].strip
     account.description = row[1].strip
     for i in 2..row.size-2
-      account.set_month_income(normalise_month(i-2), row[i])
+      amount = row[i].delete('$,').to_f unless row[i].nil?
+      account.set_month_income(0, normalise_month(i-2), amount)
     end
     return account
   end
