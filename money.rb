@@ -1,3 +1,4 @@
+# Basic class to store a monetry amount and exchange rate.
 class Money
   DEFAULT_EXCHANGE_RATE = 1.0
   attr_accessor :amount, :exchange_rate
@@ -10,10 +11,11 @@ class Money
   end
 
   def exchange_amount
-    return @amount * @exchange_rate
+    @amount * @exchange_rate
   end
 
-  def +(money)
-    return Money.new(self.exchange_amount + money.exchange_amount, DEFAULT_EXCHANGE_RATE)
+  def +(other)
+    Money.new(exchange_amount + other.exchange_amount,
+              DEFAULT_EXCHANGE_RATE)
   end
 end

@@ -1,10 +1,11 @@
 require_relative 'money'
 
+# Account class
 class Account
   attr_accessor :id, :description
 
-  def initialize (id:0, description:"")
-    @container = Array.new
+  def initialize(id: 0, description: '')
+    @container = []
     @id = id
     @description = description
   end
@@ -16,9 +17,9 @@ class Account
     raise "Month #{month} is outside of range" unless month >= 0 && month <= 11
     unless amount.nil?
       income = @container[index]
-      #create a new entry for the month if it dosen't exist.
+      # create a new entry for the month if it dosen't exist.
       if income.nil?
-        income = Hash.new
+        income = {}
         @container[index] = income
       end
       income[month] = amount
@@ -26,29 +27,29 @@ class Account
   end
 
   def get_month_income(index, month)
-      income_table = @container[index]
-      if !income_table.nil? && !income_table[month].nil?
-        return income_table[month]
-      end
-      return Money.new(0,0)
+    income_table = @container[index]
+    if !income_table.nil? && !income_table[month].nil?
+      income_table[month]
+    end
+    Money.new(0, 0)
   end
 
   def income_table
-    return @container
+    @container
   end
 
   def income(index)
-    return @container[index]
+    @container[index]
   end
 
   def total(index)
     total = 0
     income = income(index)
     unless income.nil?
-      income.each do |key, value|
+      income.each do |_key, value|
         total += value
       end
     end
-    return total
+    total
   end
 end

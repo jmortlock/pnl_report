@@ -4,36 +4,39 @@ require_relative 'profit_and_loss_report'
 #
 class ReportSummer
   def initialize
-    @accounts = Array.new
+    @accounts = []
   end
 
-  def build_report(report_number, report)
-    report.accounts.each do |account|
-      mergedAccount = @accounts.select { |x| x.id == account.id }.first
-      if mergedAccount.nil?
-        mergedAccount = Account.new id:account.id, description:account.description
-      end
+  def add_account(account)
+    # First try and see if we already have the account.
+    acc = @accounts.select { |x| x.id == account.id }.first
+    if acc.nil?
+      acc = Account.new(id: account.id, description: account.description)
+    end
+    acc
+  end
 
-      for i in 0..11 do
-        existing = mergedAccount.get_month_income(0, i)
-        newAccount = account.get_month_income(0, i)
-        mergedAccount.set_month_income(0, i, newAccount + existing )
+  def build_report(report)
+    report.accounts.each do |report_account|
+      account = add_account(report_account)
+      (0..11).each do |i|
+        income = account.get_month_income(0, i)
+        income += report_account.get_month_income(0, i)
+        account.set_month_income(0, i, income)
       end
-      @accounts << mergedAccount
+      @accounts << account
     end
   end
 
   def sum(reports)
-      result = ProfitAndLossReport.new
-      index = 0
-      reports.each do |report|
-        build_report(index, report)
-        index = index + 1
-      end
+    result = ProfitAndLossReport.new
+    reports.each do |report|
+      build_report(report)
+    end
 
-      @accounts.each do |account|
-        result.add_account(account)
-      end
-      return result
+    @accounts.each do |account|
+      result.add_account(account)
+    end
+    result
   end
 end
