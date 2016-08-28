@@ -10,7 +10,7 @@ class ReportCSVWriter
       line << account.id
       line << account.description
       for i in 0..11
-        line << account.get_month_income(0, i);
+        line << account.get_month_income(0, i).exchange_amount;
       end
       csv << line
     end

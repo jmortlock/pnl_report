@@ -15,8 +15,9 @@ class ReportSummer
       end
 
       for i in 0..11 do
-        income = mergedAccount.get_month_income(0, i);
-        mergedAccount.set_month_income(0, i, income + account.get_month_income(0, i))
+        existing = mergedAccount.get_month_income(0, i)
+        newAccount = account.get_month_income(0, i)
+        mergedAccount.set_month_income(0, i, newAccount + existing )
       end
       @accounts << mergedAccount
     end

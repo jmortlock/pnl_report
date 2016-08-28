@@ -7,10 +7,10 @@ importer = ReportCSVImporter.new
 reports = Array.new
 
 reports << importer.import("test.csv")
-#report.render
 
+#second report has a new exchange rate.
+importer.exchange_rate = 0.5
 reports << importer.import("test.csv")
-#second_report.render
 
 #comparator = ReportComparator.new
 #report = comparator.compare(reports)

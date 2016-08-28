@@ -1,11 +1,14 @@
 require 'csv'
 require 'date'
+require_relative 'money'
 require_relative 'account'
 require_relative 'profit_and_loss_report'
 
 class ReportCSVImporter
+  attr_accessor :exchange_rate
 
   def initialize
+    @exchange_rate = 1
     @first_month = 0;
     @header_parsed = false;
   end
@@ -29,7 +32,7 @@ class ReportCSVImporter
     account.description = row[1].strip
     for i in 2..row.size-2
       amount = row[i].delete('$,').to_f unless row[i].nil?
-      account.set_month_income(0, normalise_month(i-2), amount)
+      account.set_month_income(0, normalise_month(i-2), Money.new(amount, @exchange_rate))
     end
     return account
   end
