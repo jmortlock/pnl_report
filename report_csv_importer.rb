@@ -16,7 +16,7 @@ class ReportCSVImporter
   # month index range (0-11)
   def normalise_month(row_index)
     month_index = row_index + @first_month
-    if month_index > 12
+    if month_index >= 12
       month_index -= 12
     end
     return month_index

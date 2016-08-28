@@ -10,13 +10,13 @@ class ProfitAndLossReport
 
   private
   def get_month_name(index)
-    return Date::MONTHNAMES[index]
+    return Date::MONTHNAMES[index+1]
   end
 
   public
   # add an account to the report if it dosen't already exist.
   def add_account(account)
-    @accounts << account unless @accounts.bsearch { |x| x.id == account.id }
+    @accounts << account unless @accounts.index { |x| x.id == account.id }
   end
 
   def render

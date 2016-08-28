@@ -1,4 +1,5 @@
 require_relative 'report_csv_importer'
+require_relative 'report_csv_writer'
 require_relative 'report_comparator'
 
 importer = ReportCSVImporter.new
@@ -11,6 +12,11 @@ reports << importer.import("test.csv")
 #second_report.render
 
 comparator = ReportComparator.new
-comparator.compare(reports)
+report = comparator.compare(reports)
+
+#report.render
+
+exporter = ReportCSVWriter.new
+exporter.write_to_file('out.csv', report)
 
 puts "The end"

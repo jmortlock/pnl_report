@@ -11,6 +11,7 @@ class Account
   # Set the income for a given month.
   #
   def set_month_income(index, month, amount)
+    raise "Month #{month} is outside of range" unless month >= 0 && month <= 11
     unless amount.nil?
       income = @container[index]
       if income.nil?
@@ -40,7 +41,7 @@ class Account
   def total(index)
     total = 0
     income = income(index)
-    unless (income.nil?)
+    unless income.nil?
       income.each do |key, value|
         total += value
       end
