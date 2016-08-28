@@ -29,15 +29,21 @@ class Account
       return 0
   end
 
+  def income_table
+    return @container
+  end
+
   def income(index)
     return @container[index]
   end
 
   def total(index)
-    income = income(index)
     total = 0
-    income.each do |key, value|
-      total += value
+    income = income(index)
+    unless (income.nil?)
+      income.each do |key, value|
+        total += value
+      end
     end
     return total
   end
