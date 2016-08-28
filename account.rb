@@ -23,9 +23,9 @@ class Account
   end
 
   def get_month_income(index, month)
-      income = @container[index]
-      unless (income.nil?)
-        return income[month]
+      income_table = @container[index]
+      if !income_table.nil?
+        return income_table[month] unless income_table[month].nil?
       end
       return 0
   end

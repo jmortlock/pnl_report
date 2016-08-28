@@ -1,7 +1,8 @@
 require_relative 'profit_and_loss_report'
-
-class ReportComparator
-
+#
+# Adds the income for each report to one another.
+#
+class ReportSummer
   def initialize
     @accounts = Array.new
   end
@@ -14,13 +15,14 @@ class ReportComparator
       end
 
       for i in 0..11 do
-        mergedAccount.set_month_income(report_number, i, account.get_month_income(0, i))
+        income = mergedAccount.get_month_income(0, i);
+        mergedAccount.set_month_income(0, i, income + account.get_month_income(0, i))
       end
       @accounts << mergedAccount
     end
   end
 
-  def compare(reports)
+  def sum(reports)
       result = ProfitAndLossReport.new
       index = 0
       reports.each do |report|
